@@ -30,6 +30,7 @@ def create_todo(request_data: dict, db: Session = Depends(get_db)):
     return todo
 
 error ="Task Not Found"
+
 @app.get("/todos/{todo_id}")
 def read_todo(todo_id: int, db: Session = Depends(get_db)):
 
@@ -38,3 +39,14 @@ def read_todo(todo_id: int, db: Session = Depends(get_db)):
         return error
     return todo
 
+@app.delete("/todos/{todo_id}")
+def delete_todo(todo_id: int, db: Session = Depends(get_db)):
+    # Fetch the todo item to be deleted
+    todo_to_delete = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    if todo_to_delete is None:
+        raise error
+
+    # Delete the item
+    db.delete(todo_to_delete)
+    db.commit()
+    return "Todo item deleted successfully"
