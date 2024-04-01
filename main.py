@@ -14,7 +14,7 @@ def get_db():
     finally:
         db.close()
 
-
+#https://fastapi.tiangolo.com/tutorial/sql-databases/?h=pydantic#crud-utils
 #gets all todos
 @app.get("/todos/")
 def read_todos(db: Session = Depends(get_db)):
@@ -28,3 +28,13 @@ def create_todo(request_data: dict, db: Session = Depends(get_db)):
     db.add(todo)
     db.commit()
     return todo
+
+error ="Task Not Found"
+@app.get("/todos/{todo_id}")
+def read_todo(todo_id: int, db: Session = Depends(get_db)):
+
+    todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    if todo is None:
+        return error
+    return todo
+
