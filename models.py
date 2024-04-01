@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import Session
 
 # Define the database URL, change './test.db' to your actual database path
 DATABASE_URL = "sqlite:///./test.db"
@@ -24,5 +23,3 @@ class Todo(Base):
 
 # Create tables in the database
 Base.metadata.create_all(bind=engine)
-
-

@@ -1,6 +1,6 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from typing import List
+
 import models
 from models import SessionLocal, engine
 
@@ -15,7 +15,16 @@ def get_db():
         db.close()
 
 
-
+#gets all todos
 @app.get("/todos/")
 def read_todos(db: Session = Depends(get_db)):
     return db.query(models.Todo).all()
+
+@app.post("/todos/")
+def create_todo(request_data: dict, db: Session = Depends(get_db)):
+    title = request_data["title"]
+    description = request_data["description"]
+    todo = models.Todo(title=title, description=description)
+    db.add(todo)
+    db.commit()
+    return todo
