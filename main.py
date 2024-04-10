@@ -24,7 +24,10 @@ def read_todos(db: Session = Depends(get_db)):
 def create_todo(request_data: dict, db: Session = Depends(get_db)):
     title = request_data["title"]
     description = request_data["description"]
-    todo = models.Todo(title=title, description=description)
+    status = request_data["status"]
+    priority = request_data["priority"]
+    
+    todo = models.Todo(title=title, description=description, status=status, priority=priority)
     db.add(todo)
     db.commit()
     return todo

@@ -20,6 +20,8 @@ class Todo(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     description = Column(String, index=True)
+    status = Column(Integer, index=True)
+    priority = Column(String, index=True)
 
 # Create tables in the database
 Base.metadata.create_all(bind=engine)
