@@ -1,7 +1,8 @@
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String
+# https://www.geeksforgeeks.org/datetime-timezone-in-sqlalchemy/
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-
+import datetime
 # Define the database URL, change './test.db' to your actual database path
 DATABASE_URL = "sqlite:///./test.db"
 
@@ -22,6 +23,8 @@ class Todo(Base):
     description = Column(String, index=True)
     status = Column(Integer, index=True)
     priority = Column(String, index=True)
+    created = Column(DateTime, default = datetime.datetime.now())
+    date_completed = Column(DateTime)
 
 # Create tables in the database
 Base.metadata.create_all(bind=engine)
