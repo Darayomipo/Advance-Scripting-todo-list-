@@ -1,10 +1,21 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
+from datetime import datetime
 
 import models
 from models import SessionLocal, engine
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Set up CORS middleware configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # This allows all domains, adjust as necessary for security
+    # allow_credentials=True,
+    # allow_methods=["*"],  # This allows all HTTP methods
+    # allow_headers=["*"],  # This allows all headers
+)
 
 # Dependency to get the database session
 def get_db():
@@ -26,8 +37,10 @@ def create_todo(request_data: dict, db: Session = Depends(get_db)):
     description = request_data["description"]
     status = request_data["status"]
     priority = request_data["priority"]
+    created = datetime.now()
+    date_completed = request_data["date_completed"]
     
-    todo = models.Todo(title=title, description=description, status=status, priority=priority)
+    todo = models.Todo(title=title, description=description, status=status, priority=priority,created = created, date_completed= date_completed)
     db.add(todo)
     db.commit()
     return todo

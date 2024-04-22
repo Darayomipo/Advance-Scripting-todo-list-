@@ -24,7 +24,7 @@ class Todo(Base):
     status = Column(Integer, index=True)
     priority = Column(String, index=True)
     created = Column(DateTime, default = datetime.datetime.now())
-    date_completed = Column(DateTime)
+    date_completed = Column(String, index=True)
 
 # Create tables in the database
 Base.metadata.create_all(bind=engine)

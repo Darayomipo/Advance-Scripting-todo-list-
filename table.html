@@ -13,22 +13,11 @@
     <script>
 
 
-//initialize table
-var table = new Tabulator("#example-table", {
-    data:tabledata, //assign data to table
-    autoColumns:true, //create columns from data field titles
-});
-var tabledata = [
-    {id:1, title:"Oli Bob", description:"dfdvfbf",status:12, priority:1,  created:"19/02/1984"},
-    {id:2, title:"Mary May", status:1,description:"dfdvfbf",  priority:2,  created:"14/05/1982"},
-    {id:3, title:"Christine Lobowski", status:42,description:"dfdvfbf", priority:0,  created:"22/05/1982"},
-    {id:4, title:"Brendon Philips", status:100,description:"dfdvfbf",  priority:1,  created:"01/08/1980"},
-    {id:5, title:"Margret Marmajuke", status:16,description:"dfdvfbf", priority:5,  created:"31/01/1999"},
-    {id:6, title:"Frank Harbours", status:38, description:"dfdvfbf", priority:4,  created:"12/05/1966"},
-];
+
 //define data array
 var table = new Tabulator("#example-table", {
-    data:tabledata,           //load row data from array
+    ajaxURL: "http://127.0.0.1:8000/todos/",  
+    // data:"http//127.0.0.1:8000/todos/",           //load row data from array
     layout:"fitColumns",      //fit columns to width of table
     responsiveLayout:"hide",  //hide columns that don't fit on the table
     addRowPos:"top",          //when adding a new row, add it to the top of the table
@@ -52,15 +41,16 @@ var table = new Tabulator("#example-table", {
         //priority
         {title:"Priority", field:"priority", formatter:"star", hozAlign:"center", width:100, editor:true},
          //status
-        {title:"Status", field:"status", hozAlign:"left", formatter:"status", editor:true},
+        {title:"Status", field:"status", hozAlign:"left", formatter:"progress", editor:true},
 
         //creation date
         {title:"Created", field:"created", width:130, sorter:"date", hozAlign:"center"},
         //finish date
-        {title:"date completed", field:"date completed", width:130, sorter:"date", hozAlign:"center"},
+        {title:"Date completed", field:"date_completed", width:130, sorter:"date", hozAlign:"center"},
 
     ],
 });
+
     </script>
     
 </body>
