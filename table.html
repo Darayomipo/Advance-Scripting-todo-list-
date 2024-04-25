@@ -5,11 +5,20 @@
     <meta charset="UTF-8">
     <meta title="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css" rel="stylesheet">
+     <link href="https://unpkg.com/tabulator-tables/dist/css/tabulator.min.css"  rel="stylesheet">
+    
+
 <script type="text/javascript" src="https://unpkg.com/tabulator-tables/dist/js/tabulator.min.js"></script>
 </head>
 <body>
-    <div id="example-table"></div>
+    <div>
+        <button id="add-todos">Add Todos</button>
+        <button id="delete-todos">Remove Todos</button>
+        <button id="update-todos">Update Todos</button>
+        
+    </div>
+
+<div id="example-table"></div>
     <script>
 
 
@@ -23,9 +32,10 @@ var table = new Tabulator("#example-table", {
     addRowPos:"top",          //when adding a new row, add it to the top of the table
     history:true,             //allow undo and redo actions on the table
     pagination:"local",       //paginate the data
-    paginationSize:7,         //allow 7 rows per page of data
+    paginationSize:20,         //allow 7 rows per page of data
     paginationCounter:"rows", //display count of paginated rows in footer
     movableColumns:true,      //allow column order to be changed
+    selectableRows:1, //make rows selectable
     initialSort:[             //set the initial sort order of the data
         {column:"title", dir:"asc"},
     ],
@@ -50,6 +60,31 @@ var table = new Tabulator("#example-table", {
 
     ],
 });
+        // Add Todo on "Add Todo" button click
+        document.getElementById("add-todos").addEventListener("click", function() {
+            table.addRow({title: "", description: "", priority: 0, status: 0});
+        });
+
+        // Delete Todo on "Delete Todo" button click
+    // Delete Selected Todo
+    document.getElementById("delete-todos").addEventListener("click", function () {
+        var selectedRow = table.getSelectedData();
+        if (selectedRow.length > 0) {
+            fetch(`http://127.0.0.1:8000/todos/${selectedRow[0].id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) table.deleteRow(selectedRow[0].id);
+            })
+            .catch(error => console.error('Error:', error));
+        } else {
+            alert("Please select a row to delete.");
+        }
+    });
+
+
+
+
 
     </script>
     

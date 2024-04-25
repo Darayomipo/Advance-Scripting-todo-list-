@@ -12,9 +12,9 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # This allows all domains, adjust as necessary for security
-    # allow_credentials=True,
-    # allow_methods=["*"],  # This allows all HTTP methods
-    # allow_headers=["*"],  # This allows all headers
+    allow_credentials=True,
+    allow_methods=["*"],  # This allows all HTTP methods
+    allow_headers=["*"],  # This allows all headers
 )
 
 # Dependency to get the database session
